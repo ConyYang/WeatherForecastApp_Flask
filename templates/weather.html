@@ -1,0 +1,45 @@
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Forecast</title>
+</head>
+<body>
+    <!-- -->
+    <section>
+        <h1 class = "title">
+            Welcome to Weather Forecast App
+        </h1>
+    </section>
+    <!-- -->
+    <section>
+        <form>
+            <div><input class="input" name="city" type="text" placeholder="City Name"></div>
+            <div><button class="button is-info">Add City</button></div>
+        </form>
+    </section>
+    <!-- -->
+    <section>
+        <div class = "column is-offset-4 is-4">
+            <div>
+                <figure><img src="http://openweathermap.org/img/w/{{weather_data.Icon}}.png" alt="Image"></figure>
+            </div>
+            <div>
+                 <p>
+                     <span class="title">City: {{ weather_data.City }}</span><br>
+                     <span class="subtitle">Current Temperature {{ weather_data.Temperature }}° F</span><br>
+                     <span class="subtitle">Description: {{ weather_data.Description }}</span><br>
+                     <span class="subtitle">Max Temp: {{ weather_data.Temperature_Max}}° F</span><br>
+                     <span class="subtitle">Min Temp: {{ weather_data.Temperature_Min}}° F</span><br>
+                     <span class="subtitle">Humidity: {{ weather_data.Humidity}}%</span><br>
+                     <span class="subtitle">Pressure: {{ weather_data.Pressure}}hPa</span><br>
+                     <span class="subtitle">Wind Speed: {{ weather_data.Wind}}Km/hr</span><br>
+                  </p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+{% endblock %}
