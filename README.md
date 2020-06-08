@@ -1,4 +1,4 @@
-# Weather Forcast APP
+# Weather Forecast APP
 
 ### Intro
 

@@ -4,13 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, template_folder='templates')
 app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weatherData.db'
+database = SQLAlchemy(app)
 
+class City(database.Model):
+    id = database.Column(database.Interval, primary_key=True)
+    name = database.Column(database.String(50), nullable=False)
 
 
 @app.route('/')
 def index():
+    cities
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=8ad2342bc9de1e81734e896a48a13c93'
-    city = 'Singapore'
+    city = 'Guangzhou'
     response = requests.get(url.format(city)).json()
     # print(response)
 
