@@ -16,13 +16,18 @@
     <!-- -->
     <section>
         <form>
+            <div class="control is-expanded">
             <div><input class="input" name="city" type="text" placeholder="City Name"></div>
+            </div>
+            <div class="control">
             <div><button class="button is-info">Add City</button></div>
+            </div>
         </form>
     </section>
     <!-- -->
     <section>
-        <div class = "column is-offset-4 is-4">
+        {% for weather_data in weather_data_cities %}
+            <div class = "column is-offset-4 is-4">
             <div>
                 <figure><img src="http://openweathermap.org/img/w/{{weather_data.Icon}}.png" alt="Image"></figure>
             </div>
@@ -39,6 +44,7 @@
                   </p>
             </div>
         </div>
+        {% endfor %}
     </section>
 </body>
 </html>
