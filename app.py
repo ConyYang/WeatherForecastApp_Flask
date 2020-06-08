@@ -41,5 +41,8 @@ def index():
             'Wind': response['wind']['speed']
         }
         weather_data_cities.append(weather_data)
+        weather_data_cities_first_half = weather_data_cities[len(weather_data_cities)//2:]
+        weather_data_cities_second_half = weather_data_cities[:len(weather_data_cities)//2]
 
-    return render_template('weather.html', weather_data_cities=weather_data_cities)
+    return render_template('weather.html', weather_data_cities_first_half=weather_data_cities_first_half,
+                           weather_data_cities_second_half=weather_data_cities_second_half)
