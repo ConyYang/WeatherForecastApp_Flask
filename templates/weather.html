@@ -12,8 +12,12 @@
     <link href='https://fonts.googleapis.com/css?family=Lora'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
 </head>
 <body>
+    <!-- The tile and bar-->
     <header>
         <nav id ="header-nav" class = "navbar navbar-default">
             <div class="container">
@@ -28,7 +32,7 @@
             </div>
         </nav>
     </header>
-    <!-- -->
+    <!-- The add city button -->
     <section class="section">
         <div class="container">
             <div class="columns">
@@ -49,9 +53,33 @@
             </div>
         </div>
     </section>
-    <!-- -->
-
-        <section class="section">
+    <!-- Alert image-->
+    <section>
+      {% with messages = get_flashed_messages(with_categories = true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+                {% set message_class = 'is-success' %}
+                    {% if category == 'error' %}
+                        {% set message_class = 'is-danger' %}
+                    {% endif%}
+                    {% if message_class == 'is-danger'%}
+                        <div class="alert">
+                              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <div>{{ message }}</div>
+                        </div>
+                    {% endif %}
+                    {% if message_class == 'is-success' %}
+                        <div class="successAdd">
+                              <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <div>{{ message }}</div>
+                        </div>
+                    {% endif %}
+            {% endfor %}
+          {% endif %}
+      {% endwith %}
+    </section>
+    <!-- Display the cities-->
+    <section class="section">
             <div class="container">
                 <div class = "columns">
                         <div class="column is-6">

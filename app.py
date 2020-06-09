@@ -1,34 +1,34 @@
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, template_folder='templates')
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weatherData.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'conyWeather'
 database = SQLAlchemy(app)
+
 
 class City(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     name = database.Column(database.String(50), nullable=False)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        new_city = request.form.get('city')
-        print(new_city)
-        if new_city:
-            new_city_obj = City(name=new_city)
-            database.session.add(new_city_obj)
-            database.session.commit()
+def validate_City(city):
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&appid=8ad2342bc9de1e81734e896a48a13c93'
+    response = requests.get(url).json()
+    return response
 
+
+@app.route('/')
+def index_get():
     cities = City.query.all()
-    url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=8ad2342bc9de1e81734e896a48a13c93'
-
     weather_data_cities = []
+
     for city in cities:
-        response = requests.get(url.format(city.name)).json()
-        # print(response)
+        response = validate_City(city.name)
+        print(response)
         weather_data = {
             'City': city.name,
             'Temperature': response['main']['temp'],
@@ -41,8 +41,36 @@ def index():
             'Wind': response['wind']['speed']
         }
         weather_data_cities.append(weather_data)
-        weather_data_cities_first_half = weather_data_cities[len(weather_data_cities)//2:]
-        weather_data_cities_second_half = weather_data_cities[:len(weather_data_cities)//2]
+        weather_data_cities_first_half = weather_data_cities[len(weather_data_cities) // 2:]
+        weather_data_cities_second_half = weather_data_cities[:len(weather_data_cities) // 2]
 
     return render_template('weather.html', weather_data_cities_first_half=weather_data_cities_first_half,
                            weather_data_cities_second_half=weather_data_cities_second_half)
+
+
+@app.route('/', methods=['POST'])
+def index_post():
+    new_city = request.form.get('city')
+    warning = []
+    # print(new_city)
+    if new_city:
+        existed_city = City.query.filter_by(name=new_city).first()
+        if not existed_city:
+            validation = validate_City(new_city)
+            if validation['cod'] == 200:
+                new_city_obj = City(name=new_city)
+
+                database.session.add(new_city_obj)
+                database.session.commit()
+            else:
+                warning = new_city + ' does NOT exist in the world!'
+                print(warning)
+        else:
+            warning = new_city + ' already EXISTS in your data!'
+            print(warning)
+    if warning:
+        flash(warning, 'warning')
+    else:
+        flash(new_city + ' added successfully!')
+
+    return redirect(url_for('index_get'))
