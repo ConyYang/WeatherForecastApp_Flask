@@ -62,6 +62,9 @@
                     {% if category == 'warning' %}
                         {% set message_class = 'alert' %}
                     {% endif%}
+                    {% if category == 'info' %}
+                        {% set message_class = 'info' %}
+                    {% endif%}
                         <div class="{{message_class}}">
                               <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                             <div>{{ message }}</div>
@@ -70,6 +73,7 @@
           {% endif %}
       {% endwith %}
     </section>
+
     <!-- Display the cities-->
     <section class="section">
             <div class="container">
@@ -96,6 +100,11 @@
                                                  <span class="subtitle">Wind Speed: {{ weather_data.Wind}}Km/hr</span><br>
                                               </p>
                                         </div>
+                                    </div>
+                                     <div class="media-right">
+                                              <a href="{{ url_for('delete_city', name = weather_data.City) }}">
+                                                 <button class="delete"></button>
+                                             </a>
                                     </div>
                                 </article>
                             </div>
@@ -124,6 +133,11 @@
                                                  <span class="subtitle">Wind Speed: {{ weather_data.Wind}}Km/hr</span><br>
                                               </p>
                                         </div>
+                                    </div>
+                                     <div class="media-right">
+                                              <a href="{{ url_for('delete_city', name = weather_data.City) }}">
+                                                 <button class="delete"></button>
+                                             </a>
                                     </div>
                                 </article>
                             </div>

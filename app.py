@@ -25,6 +25,8 @@ def validate_City(city):
 def index_get():
     cities = City.query.all()
     weather_data_cities = []
+    weather_data_cities_first_half = []
+    weather_data_cities_second_half = []
 
     for city in cities:
         response = validate_City(city.name)
@@ -73,4 +75,14 @@ def index_post():
     else:
         flash(new_city + ' added successfully!')
 
+    return redirect(url_for('index_get'))
+
+
+@app.route('/delete/<name>')
+def delete_city(name):
+    city = City.query.filter_by(name=name).first()
+    database.session.delete(city)
+    database.session.commit()
+
+    flash(f'{city.name} is deleted successfully!', 'info')
     return redirect(url_for('index_get'))

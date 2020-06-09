@@ -65,11 +65,20 @@ body {
 
 .successAdd{
   padding: 20px;
-  background-color: #013220; /* green */
+  background-color: #4a8516; /* green */
   color: white;
   margin-bottom: 15px;
   width: 400px;
   text-align: center;
+}
+.info{
+  padding: 20px;
+  background-color: #00BFFF; /* blue */
+  color: white;
+  margin-bottom: 15px;
+  width: 400px;
+  text-align: center;
+
 }
 /* The close button */
 .closebtn {
